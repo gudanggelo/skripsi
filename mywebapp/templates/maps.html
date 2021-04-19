@@ -1,0 +1,111 @@
+    {% extends 'base.html'%}
+
+    {% block content %}
+    
+    <style type="text/css">
+        #map{
+            height: 600px;
+            width: 1100px;
+        }
+        #convert{
+            background-color: rgb(238, 8, 8);
+        }
+        #download{
+            background-color: rgb(238, 8, 8);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <div class="about">
+    <div class="container_width">
+       <div class="row d_flex">
+              <div class="col-md-18">
+                <h2>Masukkan Tanggal Untuk Mencari Data Citra!</h2>
+                <BR>
+                <div class="datepicker" id="datepicker1" ></div>
+                From  <input type="date" id="date-input-from"/> To  <input type="date" id="date-input-to" />
+                <br>
+                <br>
+                <center><button id='convert' ><a class="btn">Get geoJSON</a></button>
+                <button id='download'><a class="btn">Download</a></button></center>
+                <br>
+                <div id='result'></div>
+                <br>
+                <div id='map'></div>
+          </div>
+       </div>
+    </div>
+ </div>
+    
+    
+    {% csrf_token %}
+    <script type="text/javascript">
+     var map = L.map('map').setView([-6.5951886, 106.7218506], 7);
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        // FeatureGroup is to store editable layers
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+        var drawControl = new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems
+            }
+        });
+        map.addControl(drawControl);
+
+        map.on('draw:created', function(event){
+            var layer = event.layer,
+            feature = layer.feature = layer.feature || {};
+
+            feature.type = feature.type || "Feature";
+            var props = feature.properties = feature.properties || {};
+            drawnItems.addLayer(layer);
+        });
+        //memanggil geojson
+        document.getElementById("convert").addEventListener("click", function(){
+            var hasil = $('#result').html(JSON.stringify(drawnItems.toGeoJSON()));
+            var data = document.getElementById('result').innerHTML;
+        //notice input data
+            if(data == '{"type":"FeatureCollection","features":[]}'){
+                alert('Data kosong Silahkan buat gambar!');
+            }
+            else 
+                alert('Data berhasil disimpan')
+        });
+        document.getElementById("download").addEventListener("click", function(){
+            var hasil = JSON.stringify(drawnItems.toGeoJSON());
+        //notice input data
+            if(hasil != '{"type":"FeatureCollection","features":[]}'){
+                var dateFrom = new Date($('#date-input-from').val());
+                var dateTo = new Date($('#date-input-to').val());
+                const csrftoken = Cookies.get('csrftoken');
+                if (dateFrom.getTime() <= dateTo.getTime()){
+                    var data = {
+                        geoJson: hasil,
+                        dateFrom: dateFrom.toISOString(),
+                        dateTo: dateTo.toISOString()
+                    };
+                    console.log(data);
+                    $.ajax({
+                        type: "POST",
+                        url: "/download",
+                        headers: {'X-CSRFToken': csrftoken},
+                        mode: 'same-origin',
+                        data: JSON.stringify(data)
+                        });
+                }
+                else alert("silahkan masukkan tanggal!");
+            }
+            else 
+                alert('Data kosong Silahkan buat gambar!');
+            
+            
+        });
+
+        
+// menyimpan json 
+
+        </script>
+    {% endblock content %}
+         

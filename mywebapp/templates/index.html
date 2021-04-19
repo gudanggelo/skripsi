@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+{% load static %}
+    {% block content %}
+    
+<!-- about -->
+<br>
+<br>
+<div class="about">
+    <div class="container_width">
+       <div class="row d_flex">
+              <div class="col-md-7">
+             <div class="titlepage text_align_left">
+                <h2>About MAPS GIS </h2>
+                <p>MAPS GIS is a platform that serving sentinel ESA product that automatically download
+                </p>
+                <a class="read_more" href="maps/">About More</a>
+             </div>
+          </div>
+          <div class="col-md-5">
+             <div class="about_img text_align_center">
+                <figure><img src="{% static '/images/about.png'%}" alt="#"/></figure>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <!-- end about -->
+    <!-- sentinel -->
+<div class="coronata">
+    <div class="container">
+       <div class="row d_flex grid">
+          <div class="col-md-7">
+             <div class="coronata_img text_align_center">
+                <figure><img src="{% static '/images/sentinel.png'%}" alt="#"/></figure>
+             </div>
+          </div>
+          <div class="col-md-5 oder1">
+             <div class="titlepage text_align_left">
+                <h2>Sentinel what it is?</h2>
+                <p>when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using
+                </p>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ <!-- end sentinel -->
+ {% endblock content %}
+</html>
