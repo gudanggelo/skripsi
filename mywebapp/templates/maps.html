@@ -1,11 +1,10 @@
     {% extends 'base.html'%}
 
     {% block content %}
-    
     <style type="text/css">
         #map{
             height: 600px;
-            width: 1100px;
+            width: 980px;
         }
         #convert{
             background-color: rgb(238, 8, 8);
@@ -13,7 +12,13 @@
         #download{
             background-color: rgb(238, 8, 8);
         }
+        #hello-msg{
+            color: #fff;
+        }
     </style>
+    <div id="hello-msg"class="right">
+        <a href="{% url 'logout' %}"><i class="fa fa-user" aria-hidden="false"></i>Logout</a>
+     </div>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="about">
