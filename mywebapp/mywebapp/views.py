@@ -1,7 +1,5 @@
 from django.shortcuts import render,redirect
-from django.conf import settings
 from django.http import HttpResponse, Http404
-import os
 import json
 import sentinelsat
 import geojson
@@ -10,17 +8,16 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
-from datetime import date, datetime, timedelta
+import os
+from datetime import date, datetime
 from . import config
-from .forms import OrderForm, CreateUserForm
+from .forms import CreateUserForm
 from .models import *
 
 
 #method view index
 def index(request):
     return render(request,'index.html')
-
 @login_required(login_url='login')
 def peta(request):
     return render(request,'maps.html')
@@ -28,7 +25,6 @@ def peta(request):
 #Creata and Login 
 def registerPage(request):
     form =CreateUserForm()
-
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
@@ -58,7 +54,7 @@ def loginPage(request):
 
 def logoutUser(request):
 	logout(request)
-	return redirect('maps')
+	return redirect('home')
 
 def download(request):
     if request.method == 'POST':
@@ -75,7 +71,15 @@ def download(request):
                      platformname='Sentinel-1',
                      date=tanggal
                      )
-        api.download_all(products)
+        dirpath = os.getcwd()+'/sentineldata' 
+        for product in products:
+            try:
+                api.download(product,  directory_path=dirpath, checksum=True)
+            except:
+                continue
+        for item in os.listdir(dirpath):
+            if item.endswith(".incomplete"):
+                os.remove(os.path.join(dirpath, item))    
         return HttpResponse(request.body)
 
 def format_date(in_date):

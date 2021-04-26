@@ -25,7 +25,7 @@
     <div class="container_width">
        <div class="row d_flex">
               <div class="col-md-18">
-                <h2>Masukkan Tanggal Untuk Mencari Data Citra!</h2>
+                <h2>Input the date for finding satellites image data!</h2>
                 <BR>
                 <div class="datepicker" id="datepicker1" ></div>
                 From  <input type="date" id="date-input-from"/> To  <input type="date" id="date-input-to" />
@@ -71,6 +71,13 @@
         document.getElementById("convert").addEventListener("click", function(){
             var hasil = $('#result').html(JSON.stringify(drawnItems.toGeoJSON()));
             var data = document.getElementById('result').innerHTML;
+            var fileContent = (JSON.stringify(drawnItems.toGeoJSON()));
+            var fileName = 'Geomap.geojson';
+            const blob = new Blob([fileContent], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.setAttribute('download', fileName);
+            a.setAttribute('href', window.URL.createObjectURL(blob));
+            a.click();
         //notice input data
             if(data == '{"type":"FeatureCollection","features":[]}'){
                 alert('Data kosong Silahkan buat gambar!');

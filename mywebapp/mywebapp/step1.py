@@ -68,34 +68,34 @@ f.write( df['beginposition'][0].strftime('%Y%m%d') + '\n' )
 f.write( df['beginposition'][len(df)-1].strftime('%Y%m%d') )
 f.close()
 
-# dirpath = cwd + config.sentineldirpath
-# if not os.path.exists(dirpath):
-#     os.makedirs(dirpath)
+dirpath = cwd + config.sentineldirpath
+if not os.path.exists(dirpath):
+    os.makedirs(dirpath)
 
-# # Start Download
-# for entry in range(0, len(df)):
-#     # The uuid element allows to create the path to the file
-#     uuid_element = df['uuid'][entry]
-#     id_sar = df['identifier'][entry]
-#     sentinel_link = df['link'][entry]
+# Start Download
+for entry in range(0, len(df)):
+    # The uuid element allows to create the path to the file
+    uuid_element = df['uuid'][entry]
+    id_sar = df['identifier'][entry]
+    sentinel_link = df['link'][entry]
 
-#     # Destinationpath with filename where download to be stored
-#     destinationpath = dirpath + id_sar + '.zip'
+    # Destinationpath with filename where download to be stored
+    destinationpath = dirpath + id_sar + '.zip'
 
-#     if os.path.exists(destinationpath):
-#         logger.info(id_sar + ' already downloaded')
-#         print(id_sar + ' already downloaded')
-#     else:
-#         # Download file and read
-#         try:
-#             api.download(df['uuid'][entry], directory_path=dirpath, checksum=True)
-#             logger.info("Successfully downloaded" + id_sar+ 'in to'+ destinationpath)
-#         except:
-#             logger.warning("error connection!.... Download Interrupted!")
-#             print ("error connection!.... Download Interrupted!")
-#             time.sleep(1)
+    if os.path.exists(destinationpath):
+        logger.info(id_sar + ' already downloaded')
+        print(id_sar + ' already downloaded')
+    else:
+        # Download file and read
+        try:
+            api.download(df['uuid'][entry], directory_path=dirpath, checksum=True)
+            logger.info("Successfully downloaded" + id_sar+ 'in to'+ destinationpath)
+        except:
+            logger.warning("error connection!.... Download Interrupted!")
+            print ("error connection!.... Download Interrupted!")
+            time.sleep(1)
 
-# # delete all incomplete file
-# for item in os.listdir(dirpath):
-#     if item.endswith(".incomplete"):
-#         os.remove(os.path.join(dirpath, item))
+# delete all incomplete file
+for item in os.listdir(dirpath):
+    if item.endswith(".incomplete"):
+        os.remove(os.path.join(dirpath, item))
