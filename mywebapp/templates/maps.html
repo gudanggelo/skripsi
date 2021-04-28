@@ -1,26 +1,26 @@
-    {% extends 'base.html'%}
+{% extends 'base.html'%}
 
-    {% block content %}
-    <style type="text/css">
-        #map{
-            height: 600px;
-            width: 980px;
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style type="text/css">
+    #map{
+        height: 600px;
+        width: 980px;
         }
-        #convert{
-            background-color: rgb(238, 8, 8);
+    #convert{
+        background-color: rgb(238, 8, 8);
         }
-        #download{
-            background-color: rgb(238, 8, 8);
+    #download{
+        background-color: rgb(238, 8, 8);
         }
-        #hello-msg{
-            color: #fff;
+    #hello-msg{
+        color: #fff;
         }
-    </style>
+</style>
     <div id="hello-msg"class="right">
         <a href="{% url 'logout' %}"><i class="fa fa-user" aria-hidden="false"></i>Logout</a>
      </div>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="about">
     <div class="container_width">
        <div class="row d_flex">
@@ -67,7 +67,7 @@
             var props = feature.properties = feature.properties || {};
             drawnItems.addLayer(layer);
         });
-        //memanggil geojson
+        //menyimpan geojson
         document.getElementById("convert").addEventListener("click", function(){
             var hasil = $('#result').html(JSON.stringify(drawnItems.toGeoJSON()));
             var data = document.getElementById('result').innerHTML;
@@ -114,9 +114,6 @@
             
             
         });
-
-        
-// menyimpan json 
 
         </script>
     {% endblock content %}
