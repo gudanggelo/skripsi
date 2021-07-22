@@ -62,7 +62,7 @@ def download(request):
         footprint = geojson_to_wkt(geojson.loads(data['geoJson']))
         username = config.username # ask ITC for the username and password
         password = config.password
-        api = SentinelAPI(username, password, "https://scihub.copernicus.eu/apihub/") # fill with SMARTSeeds user and password
+        api = SentinelAPI(username, password, "https://apihub.copernicus.eu/apihub/") # fill with SMARTSeeds user and password
         tanggal = '[{0} TO {1}]'.format(data['dateFrom'].replace('.000Z', 'Z'), data['dateTo'].replace('.000Z', 'Z'))
         print (tanggal)
         products = api.query(footprint, 
