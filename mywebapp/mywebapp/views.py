@@ -11,6 +11,8 @@ import os
 from datetime import date, datetime
 from . import config
 from .forms import CreateUserForm
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 
@@ -81,6 +83,14 @@ def download(request):
         for item in os.listdir(dirpath):
             if item.endswith(".incomplete"):
                 os.remove(os.path.join(dirpath, item))    
+        #fungsi notifikasi 
+        email = send_mail( #libary django untuk mengirim email
+        'Your Download was successful!', #subject email
+        'Terima kasih sudah menggunakan aplikasi webgis data yang anda unduh sudah masuk kedalam sistem website!', #isi email
+        settings.EMAIL_HOST_USER,#email host pengirim notifikasi
+        [request.user.email], #email penerima notifikasi
+        fail_silently=False, 
+        ) 
         return HttpResponse(request.body)
 
 #mengatur tanggal
