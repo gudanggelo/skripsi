@@ -111,3 +111,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
+
+#SMTP gmail pengaturan bisa diakses di https://support.google.com/a/answer/176600?hl=en
+EMAIL_USE_TLS = True 
+EMAIL_HOST ='smtp.gmail.com' #url smtp gmail
+EMAIL_PORT = 587 # port TLS yang digunakan
+EMAIL_HOST_USER = 'sentinelimages49@gmail.com' #username email
+EMAIL_HOST_PASSWORD = 'uwywjgax123' #password email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #backend yang mengatur smtp
